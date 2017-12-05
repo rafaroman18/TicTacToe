@@ -16,7 +16,7 @@ int min(int , int );
 int max(int , int );
 
 
-tNodo *PSEUDOminimax(tNodo *t) {
+/*tNodo *PSEUDOminimax(tNodo *t) {
      int mejorJugada = -1;
      int puntos = -2;
      int i, temp;
@@ -33,7 +33,7 @@ tNodo *PSEUDOminimax(tNodo *t) {
       }}//for
       t=aplicaJugada(t,1,mejorJugada);
       return t;
-}
+}*/
 
 
 tNodo *jugadaAdversario(tNodo *t) {
@@ -54,7 +54,7 @@ tNodo *jugadaAdversario(tNodo *t) {
 
 tNodo *minimax(tNodo *nodo, int jugador)
 {
-    int max=0,max_actual=0,jugada=0,mejorJugada=0;
+    int max,max_actual,jugada,mejorJugada;
     tNodo *intento= malloc(sizeof(tNodo));
     max=-10000;
     for(jugada=0;jugada<9;jugada++)
@@ -75,11 +75,9 @@ tNodo *minimax(tNodo *nodo, int jugador)
 
 int valorMin(tNodo *nodo)
 {
-    int valor_min=0,jugada,jugador=-1;
-    if(terminal(nodo,jugador)!=0)
-
-        valor_min=terminal(nodo,jugador);               //AQUI UTILIZO TERMINAL EN VEZ DE UTILIDAD, COMPROBAR
-    else
+    int valor_min,jugada,jugador=-1,ganador;
+    ganador=terminal(nodo,jugador);
+    if(ganador==0 && nodo->vacias>0)
     {
         valor_min = +10000;
         for (jugada=0; jugada < 9; jugada++) {
@@ -87,19 +85,18 @@ int valorMin(tNodo *nodo)
                 valor_min = min(valor_min, valorMax(aplicaJugada(nodo, jugador, jugada)));
 
 
-    }}}
-    return valor_min;
+    }}
+        ganador=valor_min;
+    }
+    return ganador;
 }
 
 int valorMax(tNodo *nodo)
 {
-    int valor_max=0,jugada,jugador=1;
-    jugador=1;
-    if(terminal(nodo,jugador)!=0)
+    int valor_max,jugada,jugador=1,ganador;
+    ganador=terminal(nodo,jugador);
+    if(ganador==0 && nodo->vacias>0)
     {
-        valor_max = terminal(nodo, jugador);                //AQUI UTILIZO TERMINAL EN VEZ DE UTILIDAD, COMPROBAR
-    }
-    else{
         valor_max=-10000;
         for(jugada=0;jugada<9;jugada++)
         {
@@ -107,8 +104,10 @@ int valorMax(tNodo *nodo)
             {
                 valor_max=max(valor_max,valorMin(aplicaJugada(nodo,jugador,jugada)));
 
-        }}}
-    return valor_max;
+        }}
+    ganador=valor_max;
+    }
+    return ganador;
 }
 
 int min(int a, int b)

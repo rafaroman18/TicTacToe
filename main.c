@@ -27,7 +27,7 @@ int main()
     ganador=terminal(juego,jugador);
     while(juego->vacias>0 && ganador==0){
        if (jugador==1)
-          juego=(tNodo *) PSEUDOminimax(juego);   //,jugador);
+          juego=(tNodo *) minimax(juego,jugador);
        else
           juego=(tNodo *)jugadaAdversario(juego);
 

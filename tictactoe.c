@@ -64,6 +64,13 @@ int terminal(tNodo *Nodo, int jugador)
     return res*100;
 }
 
+int heuristica(tNodo *nodo)
+{
+    int heuristica=0,i;
+    unsigned opciones[8][3] = {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+
+}
+
 ////////////////////////////////////////
 //  VISUALIZACI�N DE NodoS
 ////////////////////////////////////////

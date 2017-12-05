@@ -13,7 +13,7 @@ typedef struct tNodo {
         int vacias;
 } tNodo;
 
-static int tablero_inicial[N] ={-1,0,0,0,-1,0,0,0,0};
+static int tablero_inicial[N] ={0,0,0,0,0,0,0,0,0};
 
 // las posiciones ser�n numeradas de 0 a 8 de la siguiente forma:
 //0 1 2
