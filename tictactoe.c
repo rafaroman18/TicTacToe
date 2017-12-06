@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define N 9
 #include "tictactoe.h"
 
 tNodo *nodoInicial()
@@ -64,11 +64,31 @@ int terminal(tNodo *Nodo, int jugador)
     return res*100;
 }
 
+//NUMERO DE COLUMNAS,FILAS Y DIAGONALES CON X SIN O
+//NUMERO DE COLUMNAS,FILAS Y DIAGONALES CON O SIN X
 int heuristica(tNodo *nodo)
 {
-    int heuristica=0,i;
-    unsigned opciones[8][3] = {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+int h,i,contX=0,contO=0;
 
+    int posibilidades[8][3]={{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+    for(i=0;i<N;i++)
+    {
+        if(nodo->celdas[posibilidades[i][0]]!=-1 && nodo->celdas[posibilidades[i][1]]!=-1 && nodo->celdas[posibilidades[i][2]]!=-1                 //COMPROBAR RAZONAMIENTOS LOGICOS
+           && (nodo->celdas[posibilidades[i][0]] || nodo->celdas[posibilidades[i][1]] || nodo->celdas[posibilidades[i][2]]))
+        {
+            contX++;
+        }
+    }
+    for(i=0;i<N;i++)
+    {
+        if(nodo->celdas[posibilidades[i][0]]!=1 && nodo->celdas[posibilidades[i][1]]!=1 && nodo->celdas[posibilidades[i][2]]!=1                 //COMPROBAR RAZONAMIENTOS LOGICOS
+           && (nodo->celdas[posibilidades[i][0]] || nodo->celdas[posibilidades[i][1]] || nodo->celdas[posibilidades[i][2]])==-1)
+        {
+            contO++;
+        }
+    }
+    h=contX-contO;
+    return h;
 }
 
 ////////////////////////////////////////
