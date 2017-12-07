@@ -7,7 +7,7 @@
 /*******************************************/
 
 #define N 9
-
+#define LIMITE 2
 typedef struct tNodo {
         int celdas[N];
         int vacias;

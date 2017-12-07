@@ -9,7 +9,7 @@
 tNodo *jugadaAdversario(tNodo *t);
 //tNodo *PSEUDOminimax(tNodo *Nodo);
 tNodo *minimax(tNodo *nodo, int jugador);
-int valorMin(tNodo *nodo);
-int valorMax(tNodo *nodo);
+int valorMin(tNodo *nodo,int contador);
+int valorMax(tNodo *nodo, int contador);
 int minimo(int a,int b);
 int maximo(int a, int b);

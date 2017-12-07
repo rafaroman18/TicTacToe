@@ -68,21 +68,22 @@ int terminal(tNodo *Nodo, int jugador)
 //NUMERO DE COLUMNAS,FILAS Y DIAGONALES CON O SIN X
 int heuristica(tNodo *nodo)
 {
-int h,i,contX=0,contO=0;
+int h=0,i,contX=0,contO=0;
 
     int posibilidades[8][3]={{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
-    for(i=0;i<N;i++)
+    for(i=0;i<8;i++)
     {
-        if(nodo->celdas[posibilidades[i][0]]!=-1 && nodo->celdas[posibilidades[i][1]]!=-1 && nodo->celdas[posibilidades[i][2]]!=-1                 //COMPROBAR RAZONAMIENTOS LOGICOS
-           && (nodo->celdas[posibilidades[i][0]] || nodo->celdas[posibilidades[i][1]] || nodo->celdas[posibilidades[i][2]]))
+        if((nodo->celdas[posibilidades[i][0]]!=-1 && nodo->celdas[posibilidades[i][1]]!=-1 && nodo->celdas[posibilidades[i][2]]!=-1)                 //COMPROBAR RAZONAMIENTOS LOGICOS
+           && (nodo->celdas[posibilidades[i][0]]==1 || nodo->celdas[posibilidades[i][1]]==1 || nodo->celdas[posibilidades[i][2]]==1))
         {
             contX++;
         }
     }
-    for(i=0;i<N;i++)
+    i=0;
+    for(i=0;i<8;i++)
     {
-        if(nodo->celdas[posibilidades[i][0]]!=1 && nodo->celdas[posibilidades[i][1]]!=1 && nodo->celdas[posibilidades[i][2]]!=1                 //COMPROBAR RAZONAMIENTOS LOGICOS
-           && (nodo->celdas[posibilidades[i][0]] || nodo->celdas[posibilidades[i][1]] || nodo->celdas[posibilidades[i][2]])==-1)
+        if((nodo->celdas[posibilidades[i][0]]!=1 && nodo->celdas[posibilidades[i][1]]!=1 && nodo->celdas[posibilidades[i][2]]!=1)                 //COMPROBAR RAZONAMIENTOS LOGICOS
+           && (nodo->celdas[posibilidades[i][0]]==-1 || nodo->celdas[posibilidades[i][1]]==-1 || nodo->celdas[posibilidades[i][2]]==-1))
         {
             contO++;
         }
@@ -114,6 +115,7 @@ void dispNodo(tNodo *b) {
      printf("---+---+---\n");
      printf(" %c | %c | %c\n",marca(b->celdas[6]),marca(b->celdas[7]),marca(b->celdas[8]));
      printf("---+---+---\n\n");
+     printf("\nLa heuristica de esta posicion era de %i\n",heuristica(b));
 }
 
 

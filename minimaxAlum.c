@@ -9,9 +9,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tictactoe.h"
+#define LIMITE 2
 tNodo *minimax(tNodo *, int );
-int valorMin(tNodo *);
-int valorMax(tNodo *);
+int valorMin(tNodo *, int);
+int valorMax(tNodo *,int);
 int min(int , int );
 int max(int , int );
 
@@ -55,14 +56,16 @@ tNodo *jugadaAdversario(tNodo *t) {
 tNodo *minimax(tNodo *nodo, int jugador)
 {
     int max,max_actual,jugada,mejorJugada;
+    int contador;
     tNodo *intento= malloc(sizeof(tNodo));
     max=-10000;
     for(jugada=0;jugada<9;jugada++)
     {
+        contador=0;
         if(esValida(nodo,jugada))
         {
             intento = aplicaJugada(nodo, jugador, jugada);
-            max_actual = valorMin(intento);
+            max_actual = valorMin(intento,contador);
             if(max_actual>max)
             {
                 max=max_actual;
@@ -73,43 +76,56 @@ tNodo *minimax(tNodo *nodo, int jugador)
     return nodo;
 }
 
-int valorMin(tNodo *nodo)
+int valorMin(tNodo *nodo,int contador)
 {
-    int valor_min,jugada,jugador=-1,ganador;
-    ganador=terminal(nodo,jugador);
-    if(ganador==0 && nodo->vacias>0)
-    {
-        valor_min = +10000;
-        for (jugada=0; jugada < 9; jugada++) {
-            if (esValida(nodo, jugada)) {
-                valor_min = min(valor_min, valorMax(aplicaJugada(nodo, jugador, jugada)));
-
-
-    }}
-        ganador=valor_min;
-    }
-    return ganador;
-}
-
-int valorMax(tNodo *nodo)
-{
-    int valor_max,jugada,jugador=1,ganador;
-    ganador=terminal(nodo,jugador);
-    if(ganador==0 && nodo->vacias>0)
-    {
-        valor_max=-10000;
-        for(jugada=0;jugada<9;jugada++)
+    int valor_min, jugada, jugador = -1, ganador;
+    ganador = terminal(nodo, jugador);
+        if (ganador == 0 && nodo->vacias > 0)
         {
-            if(esValida(nodo,jugada))
+            if (contador <= LIMITE)
             {
-                valor_max=max(valor_max,valorMin(aplicaJugada(nodo,jugador,jugada)));
+                valor_min = +10000;
+                for (jugada = 0; jugada < 9; jugada++) {
+                    if (esValida(nodo, jugada)) {
+                        valor_min = min(valor_min, valorMax(aplicaJugada(nodo, jugador, jugada), contador + 1));
 
-        }}
-    ganador=valor_max;
-    }
-    return ganador;
+
+                    }
+                }
+                ganador = valor_min;
+            }
+            else
+            {
+                ganador=heuristica(nodo);
+            }
+        }
+        return ganador;
+
 }
+int valorMax(tNodo *nodo,int contador) {
+    int valor_max, jugada, jugador = 1, ganador;
+    ganador = terminal(nodo, jugador);
+        if (ganador == 0 && nodo->vacias > 0)
+        {
+            if (contador <= LIMITE)
+            {
+                valor_max = -10000;
+            for (jugada = 0; jugada < 9; jugada++) {
+                if (esValida(nodo, jugada)) {
+                    valor_max = max(valor_max, valorMin(aplicaJugada(nodo, jugador, jugada), contador+1));
+                }
+            }
+            ganador = valor_max;
+            }
+            else
+            {
+                ganador=heuristica(nodo);
+            }
+        }
+        dispNodo(nodo);
+        return ganador;
 
+}
 int min(int a, int b)
 {
     if(a<b){
